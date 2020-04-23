@@ -1,0 +1,214 @@
+{
+	"info": {
+		"_postman_id": "203f2c09-bc7d-47be-8739-b07a671dd6e9",
+		"name": "QCert",
+		"description": "A set of api calls, to local QCert server to generate,sign certificates easily",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "RootCA",
+			"item": [
+				{
+					"name": "Create New Root Certificate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"value": "{\n\t\"CommonName\" : \"My New Root CA\",\n\t\"Organization\" : \"My Fun Organization\",\n\t\"NotAfterNumberOfYears\" : 20\n}\n",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:11129/root/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11129",
+							"path": [
+								"root",
+								"new"
+							]
+						},
+						"description": "This will Create a completly New Root Certificate\nThe json to be sent has to foolow this format:\n\n{\n\t\"CommonName\" : \"You Root CA CommonName\",\n\t\"Organization\" : \"You Root CA Organization Name\",\n\t\"NotAfterNumberOfYears\" : 20\n}\n\nNote: NotAfterNumberOfYears can be ignored, its optional, default value is: 20"
+					},
+					"response": []
+				}
+			],
+			"description": "All API Calls to Deal with Root Certificates",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Intermediate",
+			"item": [
+				{
+					"name": "Create New Signed Intermedia Certificate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "rootCertFile",
+									"type": "file",
+									"src": "/C:/Users/Khalefa/Desktop/rootca/Out/rootca/rootca.cert"
+								},
+								{
+									"key": "rootCertPrivateKey",
+									"type": "file",
+									"src": "/C:/Users/Khalefa/Desktop/rootca/Out/rootca/rootca.key"
+								},
+								{
+									"key": "data",
+									"value": "{\n\t\"CommonName\" : \"My New Intermediate CA\",\n\t\"Organization\" : \"My Fun Organization\",\n\t\"NotAfterNumberOfYears\" : 15\n}\n",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:11129/int/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11129",
+							"path": [
+								"int",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign Intermedia Certificate CSR with RootCA",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "csrFile",
+									"type": "file",
+									"src": "/C:/Users/Khalefa/Desktop/intermediate_csr/Out/intermediate_csr/intermediate.csr"
+								},
+								{
+									"key": "rootCertFile",
+									"type": "file",
+									"src": "/C:/Users/Khalefa/Desktop/rootca/Out/rootca/rootca.cert"
+								},
+								{
+									"key": "rootCertPrivateKey",
+									"type": "file",
+									"src": "/C:/Users/Khalefa/Desktop/rootca/Out/rootca/rootca.key"
+								},
+								{
+									"key": "NotAfterNumberOfYears",
+									"value": "15",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:11129/int/sign",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11129",
+							"path": [
+								"int",
+								"sign"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Intermedia Certificate Sign Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"value": "{\n\t\"CommonName\" : \"My New Intermediate CA\",\n\t\"Organization\" : \"My Fun Organization\"\n}\n",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:11129/int/csr",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11129",
+							"path": [
+								"int",
+								"csr"
+							]
+						},
+						"description": "This will Create a completly New Root Certificate\nThe json to be sent has to foolow this format:\n\n{\n\t\"CommonName\" : \"You Root CA CommonName\",\n\t\"Organization\" : \"You Root CA Organization Name\",\n\t\"NotAfterNumberOfYears\" : 20\n}\n\nNote: NotAfterNumberOfYears can be ignored, its optional, default value is: 20"
+					},
+					"response": []
+				}
+			],
+			"description": "All API Calls to Deal with Intermediate Certificates",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "12874c3a-171f-4b76-aadd-7e2d30bd913c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "85c05a77-7e34-46e0-a8d8-c219b54c0c1a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
